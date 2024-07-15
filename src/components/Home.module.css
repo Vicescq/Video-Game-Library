@@ -1,0 +1,18 @@
+.container{
+    margin-inline: 20vw;
+    margin-block: 5vh;
+}
+
+.top_container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.top_search{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.top_search img{
+    max-width: 5%;
+}
