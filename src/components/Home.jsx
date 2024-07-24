@@ -1,19 +1,17 @@
 import HomeS from "./Home.module.css"
+import NavBar from "./NavBar.jsx"
+import SearchBar from "./SearchBar.jsx"
 
 function Home(){
     return(
+        <>
+        <NavBar/>
         <div className={HomeS.container}>
-            <div className={HomeS.top_container}>
-                <h1>Video Game Library</h1>
-                <div className={HomeS.top_search}>
-                    <img src="src\assets\searchbar.svg"/>
-                </div> 
-            </div>
-            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde quaerat facilis ipsum magni inventore quas maiores fugit mollitia aliquam ad cum hic tenetur esse laboriosam nisi quasi, explicabo vero delectus!</div>
-            
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse incidunt soluta architecto sapiente dolorum? Unde, voluptas similique! Dolor dicta beatae molestias quibusdam itaque nam optio laudantium mollitia non, exercitationem fugiat.
 
 
         </div>
+        </>
     )
 }
 
