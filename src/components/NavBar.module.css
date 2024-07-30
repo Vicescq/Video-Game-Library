@@ -31,7 +31,6 @@ img{
 }
 
 .dropdownmenu{
-    display: none;
     margin-block: 0;
     right: 0;
     top: 100%;
@@ -39,14 +38,6 @@ img{
     position: absolute;
     z-index: 100;
     background-color: rgb(14, 169, 125);
-}
-
-.dropdownimg:hover + .dropdownmenu{
-    display: block;
-}
-
-.dropdownmenu:hover{
-    display: block;
 }
 
 .dropdownmenu li{
