@@ -1,6 +1,5 @@
-import { useEffect } from "react"
 import NavBarS from "./NavBar.module.css"
-import { useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 
 function NavBar(){
     const [dropdown, setDropdown] = useState(false)
@@ -12,10 +11,9 @@ function NavBar(){
             if(e.target == dropdownref.current){
                 setDropdown(!dropdown)
             }
-            if(dropdown){
-                if(!navref.current.contains(e.target)){
-                    setDropdown(false)
-                }
+            
+            if(!navref.current.contains(e.target)){
+                setDropdown(false)
             }
         }
         document.addEventListener("mousedown", dropdown_handler)
