@@ -6,6 +6,7 @@ load_dotenv()
 """
 TODO:
     CREATE DATABASE AND IMPLEMENT TOKEN REFRESH
+    PROPER ERROR HANDLING
 """
 
 
@@ -21,14 +22,11 @@ class IGDB:
         self._token = ""
         self._base_endpoint = "https://api.igdb.com/v4/"
         self._endpoint = "" 
-        self._headers = ""
+        self._headers = {}
         self._body = ""
     
     @property
     def token(self):
-        """
-        Should use init_token() first before using this property
-        """
         return self._token
     @token.setter
     def token(self, value):
@@ -46,6 +44,12 @@ class IGDB:
         token_res = requests.post(endpoint, data=body)
         token = token_res.json()["access_token"]
         self.token = token
+
+        # setting the header due to token being retrieved
+        self.headers = {
+            "Client-ID": client_id,
+            "Authorization": f"Bearer {self.token}"
+        }
 
 
     # Getter and Setters
@@ -82,6 +86,16 @@ class IGDB:
         self._body = value
 
 
+    # Methods
+    def search(self, game_query: str):
+        self.endpoint = self.base_endpoint + "games"
+        self.body = """
+                search "{}";
+                fields *;
+                limit 15;
+                exclude checksum, collection, created_at, follows, forks, game_engines, hypes, rating, rating_count, screenshots, slug, total_rating, total_rating_count, updated_at, version_parent, version_title, videos;
+        """.format(game_query)
+        return requests.post(self.endpoint, headers=self.headers, data=self.body).json()
     
 
 
