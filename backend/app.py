@@ -9,7 +9,8 @@ app = Flask(__name__)
 def home():
     IgdbInstance = IGDB()
     IgdbInstance.init_token
-    return IgdbInstance.search("persona")
+    #return IgdbInstance.search("persona")
+    return IgdbInstance.get_game_img(266008)
 
 
     

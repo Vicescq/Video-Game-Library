@@ -97,9 +97,22 @@ class IGDB:
         """.format(game_query)
         return requests.post(self.endpoint, headers=self.headers, data=self.body).json()
     
+    def get_game_img(self, id: int):
+        self.endpoint = self.base_endpoint + "games"
+        self.body = """
+                fields *;
+                where id = {};
+        """.format(id)
+        cover_id = requests.post(self.endpoint, headers=self.headers, data=self.body).json()[0]["cover"]
+        
+        self.endpoint = self.base_endpoint + "covers"
+        self.body = """
+                fields *;
+                where id = {};
+        """.format(cover_id)
+        hash = requests.post(self.endpoint, headers=self.headers, data=self.body).json()[0]["image_id"]
+        img = f"https://images.igdb.com/igdb/image/upload/t_cover_big/{hash}.jpg"
+        return img
 
-
-
-class Game:
-    def __init__(self):
-        pass
+        
+        
