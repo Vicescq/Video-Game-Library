@@ -22,7 +22,7 @@ img{
 
 .title{
     font-weight: 1000;
-    font-size: 25px;
+    font-size: 1.563rem;
     margin: auto;
 }
 
@@ -43,24 +43,15 @@ img{
 .dropdownmenu li{
     text-align: center;
     padding-block: 5vw;
+    font-size: clamp(1rem, 4.5vw, 1.716rem);
 }
 
-
-@media (width < 610px){
-    .dropdownmenu li{
-        font-size: 4.5vw;
-    }
-}
-
-@media (width >= 610px){
-    .dropdownmenu li{
-        font-size: 27.45px;
-    }
-    
+.filter{
+    margin: auto;
 }
 
 @media (min-width: 1080px){
-    .dropdownmenu_cont{
+    .dropdownmenu_cont, .filter{
         display: none;
     }
 }

@@ -4,11 +4,11 @@ import { useEffect, useState, useRef } from "react"
 function NavBar(){
     const [dropdown, setDropdown] = useState(false)
     const navref = useRef(null)
-    const dropdownref = useRef(null)
+    const dropdownimgref = useRef(null)
 
     useEffect(() => {
         let dropdown_handler = (e) => {
-            if(e.target == dropdownref.current){
+            if(e.target == dropdownimgref.current){
                 setDropdown(!dropdown)
             }
             
@@ -30,8 +30,9 @@ function NavBar(){
                 <div className={NavBarS.title}>Library</div>
             </div>
             <div className={NavBarS.container}>
+                <div className={NavBarS.filter}>Filter.</div>
                 <div className={NavBarS.dropdownmenu_cont}>
-                    <img className={NavBarS.dropdownimg}  src="src\assets\dropdown.svg" ref={dropdownref}/>
+                    <img src="src\assets\dropdown.svg" ref={dropdownimgref}/>
                     {
                         dropdown ?
                         <ul className={NavBarS.dropdownmenu}>
