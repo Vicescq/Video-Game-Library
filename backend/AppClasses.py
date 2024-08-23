@@ -12,13 +12,9 @@ TODO:
 
 class IGDB:
     def __init__(self):
-        self._error_code = 1
-        """
-        Error codes
-        0 -> Good
-        1 -> No connection to API
-        """
-
+        self._data = {
+            "status_code": 200
+        }
         self._token = ""
         self._base_endpoint = "https://api.igdb.com/v4/"
         self._endpoint = "" 
@@ -41,24 +37,26 @@ class IGDB:
             "client_secret": client_secret,
             "grant_type": "client_credentials"
         }
-        token_res = requests.post(endpoint, data=body)
-        token = token_res.json()["access_token"]
-        self.token = token
+        response = requests.post(endpoint, data=body)
+        if self.handle_response(response):
+            token = response.json()["access_token"]
+            self.token = token
+            
+            # setting the header due to token being retrieved
+            self.headers = {
+                "Client-ID": client_id,
+                "Authorization": f"Bearer {self.token}"
+            }
 
-        # setting the header due to token being retrieved
-        self.headers = {
-            "Client-ID": client_id,
-            "Authorization": f"Bearer {self.token}"
-        }
 
 
     # Getter and Setters
     @property
-    def error_code(self):
-        return self._error_code
-    @error_code.setter
-    def error_code(self, value):
-        self._error_code = value
+    def data(self):
+        return self._data
+    @data.setter
+    def data(self, value):
+        self._data = value
 
     @property
     def base_endpoint(self):
@@ -87,32 +85,48 @@ class IGDB:
 
 
     # Methods
+    def handle_response(self, response):
+        try:
+            response.raise_for_status()
+            return True
+
+        except requests.exceptions.HTTPError as err:
+            status_code = err.response.status_code
+            self.data["status_code"] = status_code
+            
+    def serialize_data(self, raw_data):
+        self.data["data"] = raw_data
+
     def search(self, game_query: str):
         self.endpoint = self.base_endpoint + "games"
         self.body = """
                 search "{}";
                 fields *;
-                limit 15;
+                limit 25;
                 exclude checksum, collection, created_at, follows, forks, game_engines, hypes, rating, rating_count, screenshots, slug, total_rating, total_rating_count, updated_at, version_parent, version_title, videos;
         """.format(game_query)
-        return requests.post(self.endpoint, headers=self.headers, data=self.body).json()
+        response = requests.post(self.endpoint, headers=self.headers, data=self.body)
+        if self.handle_response(response):
+            games = response.json()
+            self.serialize_data(games)
+            for i, game in enumerate(games):
+                self.get_game_img(i, game["cover"])
+            
+            
+
     
-    def get_game_img(self, id: int):
-        self.endpoint = self.base_endpoint + "games"
-        self.body = """
-                fields *;
-                where id = {};
-        """.format(id)
-        cover_id = requests.post(self.endpoint, headers=self.headers, data=self.body).json()[0]["cover"]
-        
+    def get_game_img(self, i, cover_id):
         self.endpoint = self.base_endpoint + "covers"
         self.body = """
                 fields *;
                 where id = {};
         """.format(cover_id)
-        hash = requests.post(self.endpoint, headers=self.headers, data=self.body).json()[0]["image_id"]
-        img = f"https://images.igdb.com/igdb/image/upload/t_cover_big/{hash}.jpg"
-        return img
-
+        response = requests.post(self.endpoint, headers=self.headers, data=self.body)
+        if self.handle_response(response):
+            hash = response.json()[0]["image_id"]
+            img = f"https://images.igdb.com/igdb/image/upload/t_cover_big/{hash}.jpg"
+            self.data["data"][i]["img"] = img
+                
         
-        
+    
+    
