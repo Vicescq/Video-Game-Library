@@ -1,6 +1,6 @@
 from flask import Flask
 from AppClasses import IGDB
-
+IGDB_INSTANCE = IGDB()
 
 
 app = Flask(__name__)
@@ -8,10 +8,10 @@ app = Flask(__name__)
 @app.route("/")
 def home():
 
-    IgdbInstance = IGDB()
-    IgdbInstance.init_token()
-    IgdbInstance.quick_search("dmc")
-    return IgdbInstance.data
+
+    IGDB_INSTANCE.init_token()
+    IGDB_INSTANCE.quick_search("doom")
+    return IGDB_INSTANCE.data
 
     
 
