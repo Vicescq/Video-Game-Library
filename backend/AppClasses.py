@@ -97,7 +97,7 @@ class IGDB:
             self.data["status"]["code"] = err.response.status_code
             self.data["status"]["reason"] = err.response.reason
             
-    def serialize_data(self, raw_data):
+    def response_wrapper(self, raw_data):
         self.data["data"] = raw_data
 
     def quick_search(self, game_query: str):
@@ -111,9 +111,12 @@ class IGDB:
         response = requests.post(self.endpoint, headers=self.headers, data=self.body)
         if self.handle_response(response):
             games = response.json()
-            self.serialize_data(games)
+            self.response_wrapper(games)
             for i, game in enumerate(self.data["data"]):
-                self.get_game_img(i, game["cover"])
+                if "cover" in game:
+                    self.get_game_img(i, game["cover"])
+                else:
+                    pass # TODO: implement default img!!!
             
     def get_game_img(self, i, cover_id):
         self.endpoint = self.base_endpoint + "covers"

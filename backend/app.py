@@ -7,10 +7,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-
-
     IGDB_INSTANCE.init_token()
-    IGDB_INSTANCE.quick_search("doom")
+    IGDB_INSTANCE.quick_search("doom eternaldsadsadsadasdsadsa")
     return IGDB_INSTANCE.data
 
     
