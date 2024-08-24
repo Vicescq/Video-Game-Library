@@ -104,7 +104,7 @@ class IGDB:
         self.endpoint = self.base_endpoint + "games"
         self.body = """
                 search "{}";
-                fields cover, name, release_dates, url;
+                fields cover, first_release_date, name, url;
                 where version_parent = null;
                 limit 10;
         """.format(game_query)
