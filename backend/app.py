@@ -9,7 +9,7 @@ app = Flask(__name__)
 def home():
 
     IgdbInstance = IGDB()
-    IgdbInstance.init_token
+    IgdbInstance.init_token()
     IgdbInstance.quick_search("dmc")
     return IgdbInstance.data
 
