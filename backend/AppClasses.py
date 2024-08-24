@@ -16,7 +16,6 @@ class IGDB:
             "status": {
                 "code": 200,
                 "reason": "OK",
-                "text": "NO PROBLEMS"
             }
         }
         self._token = ""
@@ -94,10 +93,9 @@ class IGDB:
             return True
 
         except requests.exceptions.HTTPError as err:
-            self.data = {} # resetting everything since something went wrong
+            self.data["data"] = {} # resetting everything since something went wrong
             self.data["status"]["code"] = err.response.status_code
             self.data["status"]["reason"] = err.response.reason
-            self.data["status"]["text"] = err.response.text
             
     def serialize_data(self, raw_data):
         self.data["data"] = raw_data
