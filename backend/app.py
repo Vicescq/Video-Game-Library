@@ -10,7 +10,7 @@ def home():
 
     IgdbInstance = IGDB()
     IgdbInstance.init_token
-    IgdbInstance.search("final fantasy 7 remake")
+    IgdbInstance.quick_search("final fantasy 7 remake")
     return IgdbInstance.data
 
     

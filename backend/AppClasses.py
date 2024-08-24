@@ -103,11 +103,12 @@ class IGDB:
     def serialize_data(self, raw_data):
         self.data["data"] = raw_data
 
-    def search(self, game_query: str):
+    def quick_search(self, game_query: str):
         self.endpoint = self.base_endpoint + "games"
         self.body = """
                 search "{}";
                 fields *;
+                where version_parent = null;
                 limit 25;
                 exclude checksum, collection, created_at, follows, forks, game_engines, hypes, rating, rating_count, screenshots, slug, total_rating, total_rating_count, updated_at, version_parent, version_title, videos;
         """.format(game_query)
@@ -115,13 +116,9 @@ class IGDB:
         if self.handle_response(response):
             games = response.json()
             self.serialize_data(games)
-            self.sort_games_search()
             for i, game in enumerate(self.data["data"]):
                 self.get_game_img(i, game["cover"])
             
-            
-
-    
     def get_game_img(self, i, cover_id):
         self.endpoint = self.base_endpoint + "covers"
         self.body = """
@@ -134,8 +131,3 @@ class IGDB:
             img = f"https://images.igdb.com/igdb/image/upload/t_cover_big/{hash}.jpg"
             self.data["data"][i]["img"] = img
                 
-        
-    def sort_games_search(self):
-        games = self.data["data"]
-        sorted_games = sorted(games, key=lambda d: d["category"])
-        self.data["data"] = sorted_games
