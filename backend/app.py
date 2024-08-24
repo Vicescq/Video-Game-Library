@@ -10,8 +10,7 @@ def home():
 
     IgdbInstance = IGDB()
     IgdbInstance.init_token
-    IgdbInstance.search("persona 5 royal")
-    #IgdbInstance.get_game_img(266008)
+    IgdbInstance.search("final fantasy 7 remake")
     return IgdbInstance.data
 
     

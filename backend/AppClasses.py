@@ -13,7 +13,11 @@ TODO:
 class IGDB:
     def __init__(self):
         self._data = {
-            "status_code": 200
+            "status": {
+                "code": 200,
+                "reason": "OK",
+                "text": "NO PROBLEMS"
+            }
         }
         self._token = ""
         self._base_endpoint = "https://api.igdb.com/v4/"
@@ -91,8 +95,10 @@ class IGDB:
             return True
 
         except requests.exceptions.HTTPError as err:
-            status_code = err.response.status_code
-            self.data["status_code"] = status_code
+            self.data = {} # resetting everything since something went wrong
+            self.data["status"]["code"] = err.response.status_code
+            self.data["status"]["reason"] = err.response.reason
+            self.data["status"]["text"] = err.response.text
             
     def serialize_data(self, raw_data):
         self.data["data"] = raw_data
@@ -109,7 +115,8 @@ class IGDB:
         if self.handle_response(response):
             games = response.json()
             self.serialize_data(games)
-            for i, game in enumerate(games):
+            self.sort_games_search()
+            for i, game in enumerate(self.data["data"]):
                 self.get_game_img(i, game["cover"])
             
             
@@ -128,5 +135,7 @@ class IGDB:
             self.data["data"][i]["img"] = img
                 
         
-    
-    
+    def sort_games_search(self):
+        games = self.data["data"]
+        sorted_games = sorted(games, key=lambda d: d["category"])
+        self.data["data"] = sorted_games
