@@ -91,11 +91,11 @@ class IGDB:
             return True
 
         except requests.exceptions.HTTPError as err:
-            self.data["data"] = {} # resetting everything since something went wrong
+            self.data.pop("data", None)
             self.data["code"] = err.response.status_code
             self.data["reason"] = err.response.reason
             
-    def response_wrapper(self, raw_data):
+    def wrap_response(self, raw_data):
         self.data["data"] = raw_data
 
     def quick_search(self, game_query: str):
@@ -109,7 +109,7 @@ class IGDB:
         response = requests.post(self.endpoint, headers=self.headers, data=self.body)
         if self.handle_response(response):
             games = response.json()
-            self.response_wrapper(games)
+            self.wrap_response(games)
             for i, game in enumerate(self.data["data"]):
                 if "cover" in game:
                     self.get_game_img(i, game["cover"])
