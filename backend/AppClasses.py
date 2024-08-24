@@ -25,36 +25,15 @@ class IGDB:
         self._headers = {}
         self._body = ""
     
+    
+    # Getter and Setters
     @property
     def token(self):
         return self._token
     @token.setter
     def token(self, value):
         self._token = value
-    @property
-    def init_token(self):
-        endpoint = "https://id.twitch.tv/oauth2/token"
-        client_id = os.getenv("CLIENT_ID")
-        client_secret = os.getenv("CLIENT_SECRET")
-        body = {
-            "client_id": client_id,
-            "client_secret": client_secret,
-            "grant_type": "client_credentials"
-        }
-        response = requests.post(endpoint, data=body)
-        if self.handle_response(response):
-            token = response.json()["access_token"]
-            self.token = token
-            
-            # setting the header due to token being retrieved
-            self.headers = {
-                "Client-ID": client_id,
-                "Authorization": f"Bearer {self.token}"
-            }
-
-
-
-    # Getter and Setters
+    
     @property
     def data(self):
         return self._data
@@ -89,6 +68,26 @@ class IGDB:
 
 
     # Methods
+    def init_token(self):
+        endpoint = "https://id.twitch.tv/oauth2/token"
+        client_id = os.getenv("CLIENT_ID")
+        client_secret = os.getenv("CLIENT_SECRET")
+        body = {
+            "client_id": client_id,
+            "client_secret": client_secret,
+            "grant_type": "client_credentials"
+        }
+        response = requests.post(endpoint, data=body)
+        if self.handle_response(response):
+            token = response.json()["access_token"]
+            self.token = token
+            
+            # setting the header due to token being retrieved
+            self.headers = {
+                "Client-ID": client_id,
+                "Authorization": f"Bearer {self.token}"
+            }
+    
     def handle_response(self, response):
         try:
             response.raise_for_status()
