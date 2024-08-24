@@ -107,10 +107,9 @@ class IGDB:
         self.endpoint = self.base_endpoint + "games"
         self.body = """
                 search "{}";
-                fields *;
+                fields cover, name, release_dates, url;
                 where version_parent = null;
-                limit 25;
-                exclude checksum, collection, created_at, follows, forks, game_engines, hypes, rating, rating_count, screenshots, slug, total_rating, total_rating_count, updated_at, version_parent, version_title, videos;
+                limit 10;
         """.format(game_query)
         response = requests.post(self.endpoint, headers=self.headers, data=self.body)
         if self.handle_response(response):

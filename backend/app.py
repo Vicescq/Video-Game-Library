@@ -10,11 +10,11 @@ def home():
 
     IgdbInstance = IGDB()
     IgdbInstance.init_token
-    IgdbInstance.quick_search("final fantasy 7 remake")
+    IgdbInstance.quick_search("dmc")
     return IgdbInstance.data
 
     
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
