@@ -1,9 +1,11 @@
 from flask import Flask
 from AppClasses import IGDB
+from flask_cors import CORS
 IGDB_INSTANCE = IGDB()
 
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def home():
