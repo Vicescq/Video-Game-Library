@@ -13,8 +13,10 @@ TODO:
 class IGDB:
     def __init__(self):
         self._data = {
-            "code": 200,
-            "reason": "OK",
+            "IGDB-API": {
+                "code": 200,
+                "reason": "OK",
+            }
         }
         self._token = ""
         self._base_endpoint = "https://api.igdb.com/v4/"
@@ -92,8 +94,8 @@ class IGDB:
 
         except requests.exceptions.HTTPError as err:
             self.data.pop("data", None)
-            self.data["code"] = err.response.status_code
-            self.data["reason"] = err.response.reason
+            self.data["IGDB-API"]["code"] = err.response.status_code
+            self.data["IGDB-API"]["reason"] = err.response.reason
             
     def wrap_response(self, raw_data):
         self.data["data"] = raw_data
