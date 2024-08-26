@@ -72,7 +72,7 @@ class IGDB:
             "grant_type": "client_credentials"
         }
         response = requests.post(endpoint, data=body)
-        if self.handle_response(response):
+        if self._handle_response(response):
             token = response.json()["access_token"]
             self.token = token
             
@@ -81,20 +81,6 @@ class IGDB:
                 "Client-ID": client_id,
                 "Authorization": f"Bearer {self.token}"
             }
-    
-    def handle_response(self, response):
-        self.data["code"] = response.status_code
-        self.data["reason"] = response.reason
-        try:
-            response.raise_for_status()
-            return True
-
-        except requests.exceptions.HTTPError as err:
-            self.data.pop("data", None)
-            
-            
-    def wrap_response(self, raw_data):
-        self.data["data"] = raw_data
 
     def quick_search(self, game_query: str):
         self.endpoint = self.base_endpoint + "games"
@@ -105,23 +91,37 @@ class IGDB:
                 limit 10;
         """.format(game_query)
         response = requests.post(self.endpoint, headers=self.headers, data=self.body)
-        if self.handle_response(response):
+        if self._handle_response(response):
             games = response.json()
-            self.wrap_response(games)
+            self._wrap_response(games)
             for i, game in enumerate(self.data["data"]):
                 if "cover" in game:
-                    self.get_game_img(i, game["cover"])
+                    self._get_game_img(i, game["cover"])
                 else:
                     pass # TODO: implement default img!!!
+    
+    # Private methods
+    def _handle_response(self, response):
+        self.data["code"] = response.status_code
+        self.data["reason"] = response.reason
+        try:
+            response.raise_for_status()
+            return True
+
+        except requests.exceptions.HTTPError as err:
+            self.data.pop("data", None)
             
-    def get_game_img(self, i, cover_id):
+    def _wrap_response(self, raw_data):
+        self.data["data"] = raw_data
+
+    def _get_game_img(self, i, cover_id):
         self.endpoint = self.base_endpoint + "covers"
         self.body = """
                 fields *;
                 where id = {};
         """.format(cover_id)
         response = requests.post(self.endpoint, headers=self.headers, data=self.body)
-        if self.handle_response(response):
+        if self._handle_response(response):
             hash = response.json()[0]["image_id"]
             img = f"https://images.igdb.com/igdb/image/upload/t_cover_big/{hash}.jpg"
             self.data["data"][i]["img"] = img
