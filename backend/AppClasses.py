@@ -108,7 +108,7 @@ class IGDB:
             response.raise_for_status()
             return True
 
-        except requests.exceptions.HTTPError as err:
+        except requests.exceptions.HTTPError:
             self.data.pop("data", None)
             
     def _wrap_response(self, raw_data):
