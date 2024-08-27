@@ -4,11 +4,11 @@ from AppClasses import IGDB
 from flask_cors import CORS
 IGDB_INSTANCE = IGDB()
 
-app = Flask(__name__)
-CORS(app)
 
-@app.route("/")
-def startup():
+def create_app():
+    app = Flask(__name__)
+    CORS(app)
+    app.run(debug=True)
     IGDB_INSTANCE.init_token()
 
 @app.route("/quick_search")
@@ -35,4 +35,4 @@ def dev():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    create_app()
