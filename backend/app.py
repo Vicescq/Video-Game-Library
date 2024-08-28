@@ -15,10 +15,10 @@ def quick_search():
 
 @app.route("/dev")
 def dev():
-    IGDB_INSTANCE.init_token()
-    IGDB_INSTANCE.quick_search("final fantasy")
+    IGDB_INSTANCE.quick_search("iceborne")
     return IGDB_INSTANCE.data
 
 if __name__ == "__main__":
-    app.run(debug=True)
     IGDB_INSTANCE.init_token()
+    app.run(debug=True)
+    
