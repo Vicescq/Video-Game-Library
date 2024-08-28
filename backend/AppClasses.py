@@ -133,7 +133,7 @@ class TokenState:
     Manages the state of the token for its refresh logic
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         self._curr_time = 0
     
     @property

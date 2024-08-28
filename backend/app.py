@@ -20,13 +20,13 @@ def dev():
     IGDB_INSTANCE.quick_search("iceborne")
     return IGDB_INSTANCE.data
 
-
-if __name__ == "__main__":
-    IGDB_INSTANCE.init_token()
-    
+def manage_token_states():
     threading.Thread(target=IGDB_TOKEN_STATE.update_time).start()
     token_refresh = partial(IGDB_TOKEN_STATE.token_refresh, igdb_instance=IGDB_INSTANCE)
     threading.Thread(target=token_refresh).start()
-    
+
+if __name__ == "__main__":
+    IGDB_INSTANCE.init_token()
+    manage_token_states()
     app.run()
     
