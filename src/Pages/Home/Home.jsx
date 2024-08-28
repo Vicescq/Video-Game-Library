@@ -1,5 +1,5 @@
 import HomeS from "./Home.module.css"
-import NavBar from "./NavBar.jsx"
+import NavBar from "../../Components/NavBar.jsx"
 
 function Home(){
     return(
