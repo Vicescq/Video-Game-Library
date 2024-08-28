@@ -1,19 +1,12 @@
-import os, requests
+import os, requests, time
 from dotenv import load_dotenv
 load_dotenv()
-
-
-"""
-TODO:
-    CREATE DATABASE AND IMPLEMENT TOKEN REFRESH
-    PROPER ERROR HANDLING
-"""
-
 
 class IGDB:
     def __init__(self):
         self._data = {}
         self._token = ""
+        self._expiry = 0   # placeholder int, will be set to the actual expiry in init_token()
         self._base_endpoint = "https://api.igdb.com/v4/"
         self._endpoint = "" 
         self._headers = {}
@@ -27,7 +20,14 @@ class IGDB:
     @token.setter
     def token(self, value):
         self._token = value
-    
+
+    @property
+    def expiry(self):
+        return self._expiry
+    @expiry.setter
+    def expiry(self, value):
+        self._expiry = value
+
     @property
     def data(self):
         return self._data
@@ -74,14 +74,16 @@ class IGDB:
         response = requests.post(endpoint, data=body)
         if self._handle_response(response):
             token = response.json()["access_token"]
+            expiry = response.json()["expires_in"]
             self.token = token
+            self.expiry = expiry
             
             # setting the header due to token being retrieved
             self.headers = {
                 "Client-ID": client_id,
                 "Authorization": f"Bearer {self.token}"
             }
-
+    
     def quick_search(self, game_query: str):
         self.endpoint = self.base_endpoint + "games"
         self.body = """
@@ -126,3 +128,43 @@ class IGDB:
             img = f"https://images.igdb.com/igdb/image/upload/t_cover_big/{hash}.jpg"
             self.data["data"][i]["img"] = img
                 
+class TokenState:
+    """
+    Manages the state of the token for its refresh logic
+    """
+
+    def __init__(self) -> None:
+        self._curr_time = 0
+    
+    @property
+    def curr_time(self):
+        return self._curr_time
+    @curr_time.setter
+    def curr_time(self, value):
+        self._curr_time = value
+
+    # Methods
+    def update_time(self):
+        while True:
+            self.curr_time += 1
+            time.sleep(1)
+            #print(self.curr_time)
+
+    def token_refresh(self, igdb_instance):
+        while True:
+            if self.curr_time > (0.9 * igdb_instance.expiry):
+                igdb_instance.init_token()
+                self.curr_time = 0
+            time.sleep(10)
+
+        # DEBUGGING
+        # time.sleep(1)
+        # while True:
+        #     time.sleep(1)
+        #     if self.curr_time > (15):
+        #         igdb_instance.init_token()
+        #         self.curr_time = 0
+        #         print(f"REFRESHED {igdb_instance.expiry}")
+            
+        #     else:
+        #         print(f"NOT REFRESHED {igdb_instance.expiry}")
