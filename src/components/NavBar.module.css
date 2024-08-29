@@ -1,8 +1,8 @@
 nav{
     display: flex;
-    background-color: rgb(0, 255, 110);
+    background-color: rgb(112, 189, 82);
     height: 50px;
-    color: black;
+    color: rgb(0, 0, 0);
     justify-content: space-between;
 }
 
