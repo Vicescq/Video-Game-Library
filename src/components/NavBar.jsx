@@ -30,6 +30,9 @@ function NavBar(){
                 <div className={NavBarS.title}>Library</div>
             </div>
             <div className={NavBarS.container}>
+                <div className={NavBarS.expandedmenu}>
+                    <img src="src\assets\searchbar.svg" className={NavBarS.searchbar}/>
+                </div>
                 <div className={NavBarS.filter}>Filter.</div>
                 <div className={NavBarS.dropdownmenu_cont}>
                     <img src="src\assets\dropdown.svg" ref={dropdownimgref}/>
