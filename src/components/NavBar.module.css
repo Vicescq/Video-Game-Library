@@ -1,4 +1,7 @@
 nav{
+    position: fixed;
+    top: 0;
+    width: 100%;
     display: flex;
     background-color: rgb(112, 189, 82);
     height: 50px;
@@ -33,9 +36,6 @@ img{
     margin: auto;
 }
 
-.dropdownmenu_cont{
-    position: relative;
-}
 
 .dropdownmenu{
     margin-block: 0;
@@ -43,7 +43,6 @@ img{
     top: 100%;
     width: 100vw;
     position: absolute;
-    z-index: 100;
     background-color: rgb(14, 169, 125);
 }
 
