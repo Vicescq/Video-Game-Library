@@ -6,13 +6,6 @@ function Home(){
         <>
         <NavBar/>
         <div className={HomeS.container}>
-            <div className={HomeS.status}>
-                <div><span>All</span></div>
-                <div><span>Current</span></div>
-                <div><span>Paused</span></div>
-                <div><span>Dropped</span></div>
-                <div><span>Done</span></div>
-            </div>
             <table>
                 <thead>
                     <tr >
