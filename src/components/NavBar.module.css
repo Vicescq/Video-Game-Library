@@ -9,25 +9,16 @@ nav{
     justify-content: space-between;
 }
 
-.container{
-    display: flex;
-}
-
-/* Logo + Library text styling */
-.container:first-of-type{
-    padding-left: 1vw;
-}
-
 img{
     max-height: 50px;
 }
 
-.expandedmenu{
-    margin: auto;
+.container{
+    display: flex;
 }
-
-.searchbar{
-    max-height: 35px;
+/* Logo + Library text styling */
+.container:first-of-type{
+    padding-left: 1vw;
 }
 
 .title{
@@ -35,6 +26,20 @@ img{
     font-size: 1.563rem;
     margin: auto;
 }
+
+.expandedmenu{
+    margin: auto;
+    display: flex;
+}
+
+
+
+
+.expandedmenu li{
+    list-style-type: none;
+    margin: auto;
+}
+
 
 
 .dropdownmenu{
@@ -52,12 +57,10 @@ img{
     font-size: clamp(1rem, 4.5vw, 1.716rem);
 }
 
-.filter{
-    margin: auto;
-}
+
 
 @media (min-width: 1080px){
-    .dropdownmenu_cont, .filter{
+    .dropdownmenu_cont{
         display: none;
     }
 }
