@@ -1,17 +1,3 @@
-.status{
-    display: flex;
-    background-color: rgb(69, 56, 54);
-}
-
-.status div{
-    text-align: center;
-    width: 100%;
-}
-
-.status > div > span:hover{
-    cursor: pointer;
-}
-
 table{
     
     width: 100%;
@@ -21,11 +7,6 @@ table{
 @media (width < 1080px){
     .container{
         margin-block: 5vh;
-    }
-
-    .status{
-        padding-inline: 2vw;
-        padding-block: 5vw;
     }
 
     table{
@@ -39,11 +20,6 @@ table{
         margin-inline: 15vw;
         margin-block: 10vh;
     } 
-
-    .status{
-        border-radius: 25px;
-        padding-block: 5px;
-    }
 
     table{
         border-width: 1px;
@@ -73,12 +49,5 @@ table{
 td{
     text-align: center;
 }
-
-
-
-.status{
-    font-size: clamp(1rem, 3.5vw, 1.563rem);
-}
-
 
 
