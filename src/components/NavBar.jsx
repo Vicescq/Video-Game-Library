@@ -1,5 +1,6 @@
 import NavBarS from "./NavBar.module.css"
 import { useEffect, useState, useRef } from "react"
+import { Link } from "react-router-dom"
 
 function NavBar(){
     const [dropdown, setDropdown] = useState(false)
@@ -26,17 +27,24 @@ function NavBar(){
 
         <nav ref={navref}>
             <div className={NavBarS.container}>
-                <img src="src\assets\controller.svg"/>
+                <Link to="/">
+                    <img src="src\Assets\controller.svg"/>
+                </Link>
                 <div className={NavBarS.title}>Library</div>
+                
             </div>
             
             <div className={NavBarS.container}>
                 <ul className={NavBarS.expandedmenu}>
-                    <li><img className={NavBarS.searchbarimg} src="src\assets\searchbar.svg"/></li>
-                    <li><img src="src\assets\sort.svg"/></li>
+                    <li>
+                        <Link to="/search">
+                        <img className={NavBarS.searchbarimg} src="src\Assets\searchbar.svg"/>
+                        </Link>
+                    </li>
+                    <li><img src="src\Assets\sort.svg"/></li>
                 </ul>
                 <div className={NavBarS.dropdownmenu_cont}>
-                    <img src="src\assets\dropdown.svg" ref={dropdownimgref}/>
+                    <img src="src\Assets\dropdown.svg" ref={dropdownimgref}/>
                     {
                         dropdown ?
                         <ul className={NavBarS.dropdownmenu}>
