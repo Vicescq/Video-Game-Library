@@ -32,7 +32,7 @@ function NavBar(){
             
             <div className={NavBarS.container}>
                 <ul className={NavBarS.expandedmenu}>
-                    <li><img src="src\assets\searchbar.svg" className={NavBarS.searchbar}/></li>
+                    <li><img className={NavBarS.searchbarimg} src="src\assets\searchbar.svg"/></li>
                     <li><img src="src\assets\sort.svg"/></li>
                 </ul>
                 <div className={NavBarS.dropdownmenu_cont}>
